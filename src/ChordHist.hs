@@ -13,7 +13,7 @@ import Text.Printf (printf)
 newtype ChordHist = CH (M.Map (Char, Char) Int)
 
 instance Monoid ChordHist where
-  mempty = CH M.empty
+  mempty = CH $ M.fromList [((a, b), 0) | a <- ['a'..'z'], b <- ['a'..'z'], a < b]
   mappend (CH a) (CH b) = CH $ M.unionWith (+) a b
 
 instance Show ChordHist where
