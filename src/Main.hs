@@ -44,7 +44,7 @@ chordHist =
   M.fromList . hist . normalize . pairs
   where
     normalize = map (bimap1 toLower) . filter (andTup2 . bimap1 isChord)
-    isChord ch = ord ch <= 0xFF && isAlpha ch
+    isChord ch = ord ch < 0x80 && isAlpha ch
 
 bimap1 f = bimap f f
 
