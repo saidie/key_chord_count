@@ -54,5 +54,8 @@ chordHist :: LL.ListLike str Char => str -> ChordHist
 chordHist =
   CH . M.fromList . hist . normalize . pairs
   where
-    normalize = map (bimap1 toLower) . filter (andTup2 . bimap1 isChord)
+    normalize = map (arrange . bimap1 toLower) . filter (andTup2 . bimap1 isChord)
+    arrange p@(a, b)
+      | b < a = (b, a)
+      | otherwise = p
     isChord ch = ord ch < 0x80 && isAlpha ch
