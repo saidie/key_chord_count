@@ -8,6 +8,7 @@ import Data.Char
 import qualified Data.Map.Lazy as M
 import System.IO
 import System.Environment
+import Text.Printf
 import qualified Data.ListLike as LL
 
 type ChordHist = M.Map (Char, Char) Int
@@ -51,8 +52,12 @@ bimap1 f = bimap f f
 andTup2 (True, True) = True
 andTup2 _ = False
 
+printChordHist :: ChordHist -> IO ()
+printChordHist =
+  putStrLn . unlines . M.elems . M.mapWithKey (\(c1, c2) cnt -> printf "%d %c%c" cnt c1 c2)
+
 main = do
-  getArgs >>= mapM loadChordHist >>= print . foldl addChordHist M.empty
+  getArgs >>= mapM loadChordHist >>= printChordHist . foldl addChordHist M.empty
   where
     loadChordHist path = do
       handle <- openFile path ReadMode
